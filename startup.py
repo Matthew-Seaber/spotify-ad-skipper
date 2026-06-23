@@ -13,7 +13,7 @@ def enableStartup(programPath):
 
     shell = Dispatch('WScript.Shell')
     shortcut = shell.CreateShortCut(shortcutPath)
-    shortcut.Targetpath = programPath
+    shortcut.TargetPath = programPath
     shortcut.WorkingDirectory = os.path.dirname(programPath)
     shortcut.save()
 

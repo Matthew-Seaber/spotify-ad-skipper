@@ -10,7 +10,19 @@ running = True
 commonAdNames = []
 
 async def program():
-    commonAdFilePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "common_ad_names.txt")
+    appDataPath = os.getenv("APPDATA") or os.path.expanduser("~")
+    folderPath = os.path.join(appDataPath, "SpotifyAdAvoider")
+    os.makedirs(folderPath, exist_ok=True)
+    
+    commonAdFilePath = os.path.join(folderPath, "common_ad_names.txt")
+
+    if not os.path.exists(commonAdFilePath):
+        with open(commonAdFilePath, "w") as file:
+            file.write("Advertisement\n")
+            file.write("LISTEN NOW\n")
+            file.write("—\n")
+            file.write("Listen to music, ad-free.\n")
+
     with open(commonAdFilePath, "r") as commonAdNamesFile:
         for line in commonAdNamesFile:
             commonAdNames.append(line.strip())

@@ -19,7 +19,7 @@ async def getSongTitle():
         return "ERROR - Spotify may not be running"
 
 async def restartSpotify():
-    os.system("taskkill /f /im Spotify.exe")
+    subprocess.run(["taskkill", "/f", "/im", "Spotify.exe"], creationflags=subprocess.CREATE_NO_WINDOW, capture_output=True)
 
     await asyncio.sleep(1)
 
@@ -27,9 +27,9 @@ async def restartSpotify():
     pathName = os.path.join(appData, "Spotify", "Spotify.exe")
 
     if os.path.exists(pathName):
-        subprocess.Popen(pathName) # For website downloaded version
+        os.startfile(pathName) # For website downloaded version
     else:
-        os.system("start spotify:") # For Microsoft Store version
+        os.startfile("spotify:") # For Microsoft Store version
 
     await asyncio.sleep(5)
 

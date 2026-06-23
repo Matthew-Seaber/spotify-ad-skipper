@@ -20,10 +20,14 @@ def createTrayIcon(onQuit, programPath):
         return startup.checkStartupEnabled()
     
     def openConfigFile(icon, item):
-        configFilePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "common_ad_names.txt")
+        appDataPath = os.getenv("APPDATA") or os.path.expanduser("~")
+        folderPath = os.path.join(appDataPath, "SpotifyAdAvoider")
+        os.makedirs(folderPath, exist_ok=True)
+        configFilePath = os.path.join(folderPath, "common_ad_names.txt")
 
         if not os.path.exists(configFilePath):
             print("ERROR - Config file not found.")
+            return
 
         os.startfile(configFilePath)
 
