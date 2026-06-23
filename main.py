@@ -1,20 +1,21 @@
-import time
+import asyncio
 
 from spotify import restartSpotify, getSongTitle
 
 running = True
 
-def program():
+async def program():
     while running:
-        audioTitle = getSongTitle()
-        if audioTitle == "Advertisement" or audioTitle == "LISTEN" or audioTitle == "test":
+        audioTitle = await getSongTitle()
+        if audioTitle == "Advertisement" or audioTitle == "LISTEN NOW":
             restartSpotify()
-            time.sleep(60)
+            await asyncio.sleep(60) # Impossible to have an ad immediately after reopening the app
+        elif audioTitle.startswith("ERROR"):
+            print("Error fetching Spotify song title")
+            await asyncio.sleep(10) # Saves resources because Spotify is probably not running
         else:
-            if audioTitle.startswith("ERROR"):
-                print("Error fetching Spotify song title.")
-                time.sleep(10) # Saves resources because Spotify is probably not running
+            print("Song detected")
 
-        time.sleep(1)
+        await asyncio.sleep(1)
 
-program()
+asyncio.run(program())
