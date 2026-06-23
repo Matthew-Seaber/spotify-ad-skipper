@@ -16,6 +16,6 @@ async def program():
         else:
             print("Song detected")
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
 
 asyncio.run(program())

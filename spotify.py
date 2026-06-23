@@ -1,22 +1,20 @@
 import os
 import time
 import subprocess
-from winrt.windows.media.control import GlobalSystemMediaTransportControlsSessionManager as MediaManager
+import asyncio
+import winrt.windows.media.control
 
 async def getSongTitle():
     try:
-        mediaSession = await MediaManager.request_async().get_current_session()
-
-        if mediaSession is None:
-            return "ERROR - Spotify is not running"
+        manager = await winrt.windows.media.control.GlobalSystemMediaTransportControlsSessionManager.request_async()
+        session = manager.get_current_session()
+        sessionProperties = await session.try_get_media_properties_async()
         
-        mediaDetails = await mediaSession.try_get_media_properties_async()#
-        title = mediaDetails.title
-
-        if mediaDetails is None or title is None:
-            return "ERROR - Problem fetching current audio details"
-
-        return title
+        if session is None or sessionProperties is None:
+            return "ERROR - Spotify is not running"
+    
+        print(sessionProperties.title)
+        return sessionProperties.title
     except Exception as e:
         print("Error:", e)
         return "ERROR - Spotify may not be running"
