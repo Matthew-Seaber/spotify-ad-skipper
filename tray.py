@@ -1,7 +1,21 @@
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 
-def createTrayIcon(onQuit):
+import startup
+
+def createTrayIcon(onQuit, programPath):
     image = Image.open("./images/skip-icon.png")
 
-    return Icon("Spotify Ad Avoider", image, menu=Menu(MenuItem("Quit", onQuit)))
+    def toggleStartup(icon, item):
+        if startup.checkStartupEnabled():
+            startup.disableStartup()
+        else:
+            startup.enableStartup(programPath)
+
+        icon.update_menu()
+
+    def checkStartup(item):
+        return startup.checkStartupEnabled()
+
+
+    return Icon("Spotify Ad Avoider", image, menu=Menu(MenuItem("Launch on startup", toggleStartup, checked=checkStartup), MenuItem("Quit", onQuit)))
