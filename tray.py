@@ -20,7 +20,7 @@ def createTrayIcon(onQuit, programPath):
         return startup.checkStartupEnabled()
     
     def openConfigFile(icon, item):
-        configFilePath = os.path.abspath("common_ad_names.txt")
+        configFilePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "common_ad_names.txt")
 
         if not os.path.exists(configFilePath):
             print("ERROR - Config file not found.")

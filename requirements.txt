@@ -1,0 +1,5 @@
+winrt
+winshell
+pywin32
+pystray
+pillow
