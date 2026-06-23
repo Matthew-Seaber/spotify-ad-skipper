@@ -2,6 +2,9 @@ import asyncio
 import threading
 import sys
 import os
+import win32event
+import win32api
+import winerror
 
 from spotify import restartSpotify, getSongTitle
 from tray import createTrayIcon
@@ -49,6 +52,11 @@ def onQuit(icon):
     icon.stop()
 
 if __name__ == "__main__":
+    mutex = win32event.CreateMutex(None, False, "SpotifyAdAvoiderMutex")
+
+    if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS: # Closes new instance of program if one is already running
+        sys.exit(0)
+
     programPath = sys.executable
 
     threading.Thread(target=startProgram, daemon=True).start()

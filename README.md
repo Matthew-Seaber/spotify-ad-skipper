@@ -14,4 +14,5 @@ Download the latest release (v1.0-beta) on GitHub -->
 - Automatically detects when an ad is playing on Spotify and restarts the app to skip it
 - Customisable list of ad names
 - Fully available offline
-- Can be added to Windows startup in one click
+- Can be added to Windows startup in one click  (and vice versa)
+- Instance protection to ensure that only one instance of the program is running at any given time
