@@ -1,8 +1,8 @@
 import os
 import time
 import subprocess
-import asyncio
 import winrt.windows.media.control
+import asyncio
 
 async def getSongTitle():
     try:
@@ -19,10 +19,10 @@ async def getSongTitle():
         print("Error:", e)
         return "ERROR - Spotify may not be running"
 
-def restartSpotify():
+async def restartSpotify():
     os.system("taskkill /f /im Spotify.exe")
 
-    time.sleep(1)
+    await asyncio.sleep(1)
 
     appData = os.getenv("APPDATA", "")
     pathName = os.path.join(appData, "Spotify", "Spotify.exe")
@@ -31,3 +31,13 @@ def restartSpotify():
         subprocess.Popen(pathName) # For website downloaded version
     else:
         os.system("start spotify:") # For Microsoft Store version
+
+    await asyncio.sleep(5)
+
+    manager = await winrt.windows.media.control.GlobalSystemMediaTransportControlsSessionManager.request_async()
+    session = manager.get_current_session()
+
+    if session:
+        await session.try_play_async()
+    else:
+        print("ERROR - Failed to resume audio playback")
