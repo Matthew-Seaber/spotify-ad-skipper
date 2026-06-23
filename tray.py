@@ -5,7 +5,8 @@ from PIL import Image
 import startup
 
 def createTrayIcon(onQuit, programPath):
-    image = Image.open("./images/skip-icon.png")
+    imagePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "skip-icon.png")
+    image = Image.open(imagePath)
 
     def toggleStartup(icon, item):
         if startup.checkStartupEnabled():

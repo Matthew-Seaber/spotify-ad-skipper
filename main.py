@@ -1,6 +1,7 @@
 import asyncio
 import threading
 import sys
+import os
 
 from spotify import restartSpotify, getSongTitle
 from tray import createTrayIcon
@@ -9,7 +10,8 @@ running = True
 commonAdNames = []
 
 async def program():
-    with open("common_ad_names.txt", "r") as commonAdNamesFile:
+    commonAdFilePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "common_ad_names.txt")
+    with open(commonAdFilePath, "r") as commonAdNamesFile:
         for line in commonAdNamesFile:
             commonAdNames.append(line.strip())
 
